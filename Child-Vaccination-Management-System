@@ -1,0 +1,62 @@
+import datetime
+
+class Child:
+    def __init__(self, name, birthdate):
+        self.name = name
+        self.birthdate = birthdate
+        self.vaccinations = []
+        self.reminders = []
+
+    def add_vaccination(self, vaccine_name, date):
+        self.vaccinations.append({'vaccine': vaccine_name, 'date': date})
+        print(f"Vaccination {vaccine_name} added on {date.strftime('%Y-%m-%d')}.")
+
+    def set_reminder(self, vaccine_name, reminder_date):
+        self.reminders.append({'vaccine': vaccine_name, 'reminder_date': reminder_date})
+        print(f"Reminder set for {vaccine_name} on {reminder_date.strftime('%Y-%m-%d')}.")
+
+    def view_vaccinations(self):
+        print(f"\nVaccination records for {self.name}:")
+        if not self.vaccinations:
+            print("No vaccinations recorded.")
+        else:
+            for record in self.vaccinations:
+                print(f" - {record['vaccine']} on {record['date'].strftime('%Y-%m-%d')}")
+
+    def view_reminders(self):
+        print(f"\nReminders for {self.name}:")
+        if not self.reminders:
+            print("No reminders set.")
+        else:
+            for reminder in self.reminders:
+                print(f" - {reminder['vaccine']} on {reminder['reminder_date'].strftime('%Y-%m-%d')}")
+
+class VaccinationScheduler:
+    def __init__(self):
+        self.children = []
+
+    def add_child(self, name, birthdate):
+        child = Child(name, birthdate)
+        self.children.append(child)
+        print(f"\nChild {name} added successfully.")
+
+    def schedule_vaccination(self, child_name, vaccine_name, date):
+        for child in self.children:
+            if child.name == child_name:
+                child.add_vaccination(vaccine_name, date)
+                reminder_date = date - datetime.timedelta(days=2)
+                child.set_reminder(vaccine_name, reminder_date)
+                break
+        else:
+            print(f"Child named {child_name} not found.")
+
+    def view_all_vaccinations(self):
+        for child in self.children:
+            child.view_vaccinations()
+
+    def view_all_reminders(self):
+        for child in self.children:
+            child.view_reminders()
+
+def main():
+    main()
